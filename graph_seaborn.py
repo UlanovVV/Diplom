@@ -6,6 +6,7 @@ sns.set_theme(style="darkgrid")
 
 
 # Создание линейных графиков
+
 N = 50
 random_x = np.linspace(0, 1, N)
 random_y0 = np.random.randn(N) + 8
@@ -29,4 +30,17 @@ plt.show()
 # Разделение по группам
 
 sns.pairplot(data=penguins, hue='species')
+plt.show()
+
+# Создание диаграммы уровней
+
+sns.displot(
+    penguins, x="bill_length_mm", y="bill_depth_mm",
+    kind="kde", rug=True, hue='species')
+plt.show()
+
+
+# Создание "Скрипичной" диаграммы
+g = sns.catplot(data=penguins, x="species", y="bill_length_mm", kind="violin", inner=None)
+sns.swarmplot(data=penguins, x="species", y="bill_length_mm", color="k", size=2, ax=g.ax)
 plt.show()

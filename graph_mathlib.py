@@ -1,7 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 from matplotlib.ticker import IndexLocator
-from mpl_toolkits.mplot3d import Axes3D
+
 
 # Создание линейных графиков в нескольких координатных осях
 f, ax = plt.subplots(2, 2)
@@ -49,4 +50,55 @@ ax_3d.scatter(x, y, z, color='g')
 ax_3d.set_xlabel('x', size='14')
 ax_3d.set_ylabel('y', size='14')
 ax_3d.set_zlabel('z', size='14')
+plt.show()
+
+
+# Создание круговой диаграммы
+
+plt.figure(figsize=(10, 10))
+vals = [168.1, 130.6, 74.4, 77.4, 61.5, 238]
+color = ['C0', 'C1', 'C2', 'C3', 'C4', 'C5', ]
+exp = [0.3, 0.2, 0, 0, 0, 0.1]
+labels = ['KIA', 'Hyundai', 'Toyota', 'Volkswagen', 'Skoda', 'Остальные']
+plt.pie(vals, labels=labels, autopct='%.1f%%', startangle=90, colors=color, explode=exp)
+plt.title('Топ по продажам автомобилей в 2019 году', fontsize=16)
+plt.axis('equal')
+plt.show()
+
+
+# Создание диаграммы уровней
+
+f4, ax = plt.subplots()
+x = np.random.randn(6)
+y = np.random.randn(6)
+z = x**2 + y**2
+d = ax.tricontour(x, y, z)
+d.clabel(colors='black')
+plt.show()
+
+
+# Создание анимационного графика
+
+def update_cos(frame, line, x):
+    line.set_ydata(np.cos(x + frame))
+    return [line]
+
+
+f5, ax = plt.subplots()
+
+x = np.arange(-2*np.pi, 2*np.pi, 0.1)
+y = np.cos(x)
+
+line, = ax.plot(x, y)
+
+phasa = np.arange(0, 4*np.pi, 0.1)
+
+animation = FuncAnimation(
+    f5,
+    func=update_cos,
+    frames=phasa,
+    fargs=(line, x),
+    interval=30,
+    repeat=True)
+
 plt.show()

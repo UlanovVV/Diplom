@@ -68,8 +68,8 @@ gist.update_layout(
     title_text='Создание гистограммы',
     xaxis_title_text='0x',
     yaxis_title_text='0у',
-    bargap=0.2, # расстояние между столбцами в разных значениях 0х
-    bargroupgap=0.1 # расстояние между столбцами в одном значении 0х
+    bargap=0.2,     # расстояние между столбцами в разных значениях 0х
+    bargroupgap=0.1     # расстояние между столбцами в одном значении 0х
 )
 
 gist.show()
@@ -116,3 +116,46 @@ dvig = go.Figure(
 )
 
 dvig.show()
+
+
+# Создание графика с ползунком
+
+fig = go.Figure()
+
+# Создание графика
+for step in np.arange(0, 5, 0.1):
+    fig.add_trace(
+        go.Scatter(
+            visible=False,
+            line=dict(color="#00CED1", width=6),
+            name="𝜈 = " + str(step),
+            x=np.arange(0, 10, 0.01),
+            y=np.sin(step * np.arange(0, 10, 0.01))))
+
+# Отображение начального положения графика
+fig.data[10].visible = True
+
+
+# Создание ползунка
+steps = []
+for i in range(len(fig.data)):
+    step = dict(
+        method="update",
+        args=[{"visible": [False] * len(fig.data)},
+              {"title": "Ползунок переключился на шаг: " + str(i)}],
+    )
+    step["args"][0]["visible"][i] = True
+    steps.append(step)
+
+sliders = [dict(
+    active=10,
+    currentvalue={"prefix": "Частота: "},
+    pad={"t": 50},
+    steps=steps
+)]
+
+fig.update_layout(
+    sliders=sliders
+)
+
+fig.show()
